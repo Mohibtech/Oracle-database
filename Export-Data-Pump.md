@@ -29,7 +29,7 @@ LOGFILE=SCHEMA_MX02_METADATA.log
 CONTENT=METADATA_ONLY
 PARALLEL=4
 COMPRESSION=ALL
-~~~sql
+~~~
 
 ###Exporting Single Table (Partitioned)
 ~~~sql
