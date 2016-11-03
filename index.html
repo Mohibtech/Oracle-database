@@ -2,25 +2,68 @@
   <head>
     <title>Sample "Hello, World" Application</title>
   </head>
-  <body bgcolor=white>
+  <body>
+<h1>Export Data Pump</h1>
+<h3>Exporting Full Database Metadata</h3>
+<p>~~~sql<br />
+DIRECTORY=BACKUPS<br />
+DUMPFILE=FULLDB<em>METADATA.DMP<br />
+LOGFILE=FULLDB</em>METADATA.log<br />
+FULL=Y<br />
+CONTENT=METADATA_ONLY<br />
+COMPRESSION=ALL<br />
+~~~</p>
+<h3>Exporting Schema</h3>
+<p>~~~ sql<br />
+DIRECTORY=BACKUPS<br />
+DUMPFILE=SCHEMA<em>MX02.DMP<br />
+SCHEMAS = MX02<br />
+LOGFILE=SCHEMA</em>MX02.log   <br />
+PARALLEL=4<br />
+COMPRESSION=ALL<br />
+~~~</p>
+<h3>FULL Schema Metadata ONLY</h3>
+<p>~~~sql
+DIRECTORY=BACKUPS
+DUMPFILE=SCHEMA<em>MX02</em>METADATA.DMP
+SCHEMAS = MX02
+LOGFILE=SCHEMA_MX02<em>METADATA.log <br />
+CONTENT=METADATA</em>ONLY
+PARALLEL=4
+COMPRESSION=ALL
+~~~</p>
+<h3>Exporting Single Table (Partitioned)</h3>
+<p>~~~sql
+userid=mohib/passwd
+Directory=MX<em>DB</em>BACKUP<em>DIR
+Dumpfile=MX01<em>TABLE</em>DG0.DMP
+logfile=MX01</em>Table<em>DG0.log
+Tables=MX01.MX01</em>DG0
+Parallel=8
+Compression=all
+~~~</p>
+<h3>Exporting Multiple Tables</h3>
+<p>~~~sql
+userid=TKMX/Aa
+Directory=BACKUPS
+Dumpfile=MX02<em>TABLES.DMP
+logfile=MX02</em>Tables.log
+Tables=MX02.TKMX02<em>DG0, MX02.MX02<em>DG1, MX02.MX02</em>DG2, MX02.MX02</em>DG3
+Content=DATA_ONLY
+Parallel=8
+Compression=all
+~~~</p>
+<h3>Exporting Table Partition</h3>
+<p>~~~sql
+userid=STAR/passwd
+tables=STAR.STAR<em>DG0:PT</em>STAR<em>DG0<em>20150101
+directory=BACKUPS
+dumpfile=CC</em>DG0.dmp
+logfile=CC</em>DG0.log
+compression=all
+parallel=8
+~~~</p>
 
-    <table border="0" cellpadding="10">
-      <tr>
-        <td>
-          <img src="images/springsource.png">
-        </td>
-        <td>
-          <h1>Sample "Hello, World" Application</h1>
-        </td>
-      </tr>
-    </table>
+</body>
 
-    <p>This is the home page for the HelloWorld Web application. </p>
-    <p>To prove that they work, you can execute either of the following links:
-    <ul>
-      <li>To a <a href="hello.jsp">JSP page</a>.
-      <li>To a <a href="hello">servlet</a>.
-    </ul>
-
-  </body>
 </html>
