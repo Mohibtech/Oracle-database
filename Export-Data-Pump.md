@@ -1,57 +1,66 @@
 #Export Data Pump 
 
 ###Exporting Full Database Metadata
+~~~sql
 DIRECTORY=BACKUPS
 DUMPFILE=FULLDB_METADATA.DMP  
 LOGFILE=FULLDB_METADATA.log  
 FULL=Y
 CONTENT=METADATA_ONLY
 COMPRESSION=ALL
+~~~
 
 ###Exporting Schema 
-userid=system/123456
+~~~sql
 DIRECTORY=BACKUPS
-DUMPFILE=SCHEMA_TKMX02.DMP
-SCHEMAS = TKMX02
-LOGFILE=SCHEMA_TKMX02.log   
+DUMPFILE=SCHEMA_MX02.DMP
+SCHEMAS = MX02
+LOGFILE=SCHEMA_MX02.log   
 PARALLEL=4
 COMPRESSION=ALL
+~~~
 
 ###FULL Schema Metadata ONLY
-userid=system/123456
+~~~sql
 DIRECTORY=BACKUPS
-DUMPFILE=SCHEMA_TKMX02_METADATA.DMP
-SCHEMAS = TKMX02
-LOGFILE=SCHEMA_TKMX02_METADATA.log   
+DUMPFILE=SCHEMA_MX02_METADATA.DMP
+SCHEMAS = MX02
+LOGFILE=SCHEMA_MX02_METADATA.log   
 CONTENT=METADATA_ONLY
 PARALLEL=4
 COMPRESSION=ALL
+~~~sql
 
 ###Exporting Single Table (Partitioned)
-userid=TKMX01/A
-Directory=TKMX_DB_BACKUP_DIR
-Dumpfile=TKMX01_TABLE_DG0.DMP
-logfile=TKMX01_Table_DG0.log
-Tables=TKMX01.TKMX01_DG0
+~~~sql
+userid=mohib/passwd
+Directory=MX_DB_BACKUP_DIR
+Dumpfile=MX01_TABLE_DG0.DMP
+logfile=MX01_Table_DG0.log
+Tables=MX01.MX01_DG0
 Parallel=8
 Compression=all
+~~~
 
 ###Exporting Multiple Tables
+~~~sql
 userid=TKMX/Aa
 Directory=BACKUPS
-Dumpfile=TKMX02_TABLES.DMP
-logfile=TKMX02_Tables.log
-Tables=TKMX02.TKMX02_DG0, TKMX02.TKMX02_DG1, TKMX02.TKMX02_DG2, TKMX02.TKMX02_DG3,
-TKMX02.TKMX02_DG4, TKMX02.TKMX02_DG5,TKMX02.TKMX02_DG6,TKMX02.TKMX02_JT
+Dumpfile=MX02_TABLES.DMP
+logfile=MX02_Tables.log
+Tables=MX02.TKMX02_DG0, MX02.MX02_DG1, MX02.MX02_DG2, MX02.MX02_DG3
 Content=DATA_ONLY
 Parallel=8
 Compression=all
+~~~
 
 ###Exporting Table Partition
-userid=STAR/123456
+~~~sql
+userid=STAR/passwd
 tables=STAR.STAR_DG0:PT_STAR_DG0_20150101
 directory=BACKUPS
 dumpfile=CC_DG0.dmp
 logfile=CC_DG0.log
 compression=all
 parallel=8
+~~~
