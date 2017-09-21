@@ -20,8 +20,6 @@ Checkpackage(){
 	oracle-rdbms-server-11gR2-preinstall-verify
 }
 
-
-				
 ORACLE_MOUNTPOINTS=(/u01 /u02 /u03 /u04)
 ORACLE_USER=oracle
 ORACLE_BASE=${ORACLE_MOUNTPOINTS[0]}/app/oracle
@@ -40,11 +38,9 @@ usage()
 cat << EOF
 usage: $0 [-h] [-u ORACLE_USER] [-m ORACLE_MEMORY_SIZE] [-i INSTALLFILES_DIR]
 
-
 This script is used to install Oracle Grid Infrastructure and the Oracle
 database software. The default settings will install the database software
 according to the OFA standard.
-
 
 OPTIONS:
 -h Show this message
@@ -54,6 +50,7 @@ OPTIONS:
 Defaults to $ORACLE_MEMORY_SIZE.
 EOF
 }
+
 # Parse arguments
 check_parse_arguments(){
 	while getopts "hi:u:m:" OPTION
@@ -80,20 +77,19 @@ check_parse_arguments(){
 	done
 }
 
-
 # Check if run as root
 Check_root_oracle_user() {
 	if [[ $EUID -ne 0 ]]; then
-	echo "This script must be run as root" 1>&2
-	exit 1
+		echo "This script must be run as root" 1>&2
+		exit 1
 	fi
 	
 	id $ORACLE_USER 2>/dev/null
 	if [ $? -eq 0 ]; then
-	echo "User $ORACLE_USER found, proceeding..."
+		echo "User $ORACLE_USER found, proceeding..."
 	else
-	echo "User $ORACLE_USER not found, aborting..."
-	exit 1
+		echo "User $ORACLE_USER not found, aborting..."
+		exit 1
 	fi 
 }
 
@@ -104,7 +100,7 @@ chk_unzip(){
 	which unzip
 	if [ $? -eq 0 ]; then
 		echo "unzip is installed"
-		else
+	else
 		echo "unzip not found, aborting..."
 		exit 1
 	fi
@@ -113,9 +109,9 @@ chk_unzip(){
 chk_preinstall(){
 	which oracle-rdbms-server-11gR2-preinstall-verify
 		if [ $? -eq 0 ]; then
-		echo "oracle-rdbms-server-11gR2-preinstall-verify is installed"
+			echo "oracle-rdbms-server-11gR2-preinstall-verify is installed"
 		else
-		echo "oracle-rdbms-server-11gR2-preinstall-verify not found, aborting..."
+			echo "oracle-rdbms-server-11gR2-preinstall-verify not found, aborting..."
 		exit 1
 	fi
 }
@@ -124,7 +120,7 @@ chk_ntpd(){
 	which ntpd
 	if [ $? -eq 0 ]; then
 		echo "ntpd is installed"
-		else
+	else
 		echo "ntpd not found, aborting..."
 		exit 1
 	fi
@@ -132,9 +128,9 @@ chk_ntpd(){
 
 chk_ntpdate(){
 	which ntpdate
-		if [ $? -eq 0 ]; then
+	if [ $? -eq 0 ]; then
 		echo "ntpdate is installed"
-		else
+	else
 		echo "ntpdate not found, aborting..."
 		exit 1
 	fi
@@ -149,20 +145,19 @@ chk_preinstall
 
 
 Check_Zip_files () {
-
-if [ -d "$ORACLE_INSTALLFILES_LOCATION" ]; then
-	echo "$ORACLE_INSTALLFILES_LOCATION exists"
-	if [ `ls -l $ORACLE_INSTALLFILES_LOCATION/p13390677_112040*.zip | wc -l` -eq 2 ]; then
-		echo "Correct amount of ZIPs found, proceeding..."
+	if [ -d "$ORACLE_INSTALLFILES_LOCATION" ]; then
+		echo "$ORACLE_INSTALLFILES_LOCATION exists"
+		if [ `ls -l $ORACLE_INSTALLFILES_LOCATION/p13390677_112040*.zip | wc -l` -eq 2 ]; then
+			echo "Correct amount of ZIPs found, proceeding..."
 		else
-		echo "No or wrong installation ZIP files found."
-		echo "Please make sure p13390677_112040_Linux-x86-64_1of7.zip,p13390677_112040_Linux-x86-64_2of7.zip are located in $ORACLE_INSTALLFILES_LOCATION"
+			echo "No or wrong installation ZIP files found."
+			echo "Please make sure p13390677_112040_Linux-x86-64_1of7.zip,p13390677_112040_Linux-x86-64_2of7.zip are located in $ORACLE_INSTALLFILES_LOCATION"
+			exit 1
+		fi
+	else
+		echo "$ORACLE_INSTALLFILES_LOCATION does not exist, aborting..."
 		exit 1
 	fi
-else
-	echo "$ORACLE_INSTALLFILES_LOCATION does not exist, aborting..."
-	exit 1
-fi
 }
 
 # Prepare filesystem
@@ -172,17 +167,15 @@ fi
 Check_mount_points_exists () {
 	for mountpoint in ${ORACLE_MOUNTPOINTS[*]}
 	do
-	mkdir -p $mountpoint
-	chown -R ${ORACLE_USER}:oinstall $mountpoint
+		mkdir -p $mountpoint
+		chown -R ${ORACLE_USER}:oinstall $mountpoint
 	done
-
 
 	mkdir -p ${ORACLE_HOME}
 	mkdir -p ${ORACLE_INVENTORY_LOCATION}
 	chown -R ${ORACLE_USER}:oinstall ${ORACLE_BASE}
 	chown -R ${ORACLE_USER}:oinstall ${ORACLE_INVENTORY_LOCATION}
 }
-
 
 # Prepare groups and users
 Check_adding_groups() {
@@ -194,12 +187,9 @@ Check_adding_groups() {
 	usermod -a -G dba,asmoper,asmadmin,dgdba,bckpdba,kmdba ${ORACLE_USER}
 }
 
-
-
-
 # Modify Files
 modifying_Files() {
-
+	# Modify /etc/sysconfig/ntpd
 	modify_NTPD (){
 		service ntpd stop
 		echo 'OPTIONS="-u ntp:ntp -x -p /var/run/ntpd.pid"' > /etc/sysconfig/ntpd
@@ -207,14 +197,11 @@ modifying_Files() {
 		service ntpd start 
     }
 
-
-					
     # Modify /etc/hosts
     modify_hosts () {
 		cp /etc/hosts /etc/hosts.original
 		echo "127.0.0.1 `hostname -s` `hostname`" >> /etc/hosts
     }
-
 
     # Modify /etc/fstab
     modify_fstab() {
@@ -231,11 +218,8 @@ modify_fstab
 
 # Register OraInventory
 Check_Regiser_oraInventory () {
-								${ORACLE_INVENTORY_LOCATION}/orainstRoot.sh
-                               }
-
-							   
-
+	${ORACLE_INVENTORY_LOCATION}/orainstRoot.sh
+}
 
 # Installation of Database Software
 # Oracle database software
@@ -245,10 +229,9 @@ cd ${ORACLE_INSTALLFILES_LOCATION}
 unzip ${ORACLE_INSTALLFILES_LOCATION}/p13390677_112040_Linux-x86-64_1of7.zip
 unzip ${ORACLE_INSTALLFILES_LOCATION}/p13390677_112040_Linux-x86-64_2of7.zip
 chown -R ${ORACLE_USER}:oinstall ${ORACLE_INSTALLFILES_LOCATION}/database
+
 #TODO: Check if everything worked as expected and only remove if no errors occured
 cd ${ORACLE_INSTALLFILES_LOCATION}/database
-
-
 
 echo "oracle.install.responseFileVersion=/oracle/install/rspfmt_dbinstall_response_schema_v12.1.0
 oracle.install.option=INSTALL_DB_SWONLY
