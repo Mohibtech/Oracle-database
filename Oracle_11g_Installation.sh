@@ -93,7 +93,6 @@ Check_root_oracle_user() {
 	fi 
 }
 
-
 # Check necessary programs installed
 Check_programs_are_installed() {
 chk_unzip(){
@@ -142,7 +141,6 @@ chk_preinstall
 #chk_ntpdate
 
 }
-
 
 Check_Zip_files () {
 	if [ -d "$ORACLE_INSTALLFILES_LOCATION" ]; then
@@ -210,9 +208,9 @@ modifying_Files() {
 		mount -t tmpfs shmfs -o size=$ORACLE_MEMORY_SIZE /dev/shm
     }
 	
-#modify_NTPD
-modify_hosts
-modify_fstab
+	#modify_NTPD
+	modify_hosts
+	modify_fstab
 	
 }
 
@@ -250,7 +248,6 @@ SECURITY_UPDATES_VIA_MYORACLESUPPORT=false
 DECLINE_SECURITY_UPDATES=true
 oracle.installer.autoupdates.option=SKIP_UPDATES" > ${ORACLE_INSTALLFILES_LOCATION}/db_install.rsp
 
-
 echo "Now installing Database software. This may take a while..."
 su ${ORACLE_USER} -c "cd ${ORACLE_INSTALLFILES_LOCATION}/database; ./runInstaller -silent -waitForCompletion -responseFile ${ORACLE_INSTALLFILES_LOCATION}/db_install.rsp"
 }
@@ -269,36 +266,33 @@ Execute_root_script () {
 
 # Create an Oracle listener in the Oracle_HOME
 Check_add_Listener () {
-						echo "Adding listener..."
+	echo "Adding listener..."
+
+	echo "[GENERAL]
+	RESPONSEFILE_VERSION=\"11.2\"
+	CREATE_TYPE=\"CUSTOM\"
+	SHOW_GUI=false
+	[oracle.net.ca]
+	INSTALLED_COMPONENTS={\"server\",\"net8\",\"javavm\"}
+	INSTALL_TYPE=\"\"typical\"\"
+	LISTENER_NUMBER=1
+	LISTENER_NAMES={\"LISTENER\"}
+	LISTENER_PROTOCOLS={\"TCP;1521\"}
+	LISTENER_START=\"\"LISTENER\"\"
+	NAMING_METHODS={\"TNSNAMES\",\"ONAMES\",\"HOSTNAME\"}
+	NSN_NUMBER=1
+	NSN_NAMES={\"EXTPROC_CONNECTION_DATA\"}
+	NSN_SERVICE={\"PLSExtProc\"}
+	NSN_PROTOCOLS={\"TCP;HOSTNAME;1521\"}" > ${ORACLE_INSTALLFILES_LOCATION}/netca.rsp
 
 
-						echo "[GENERAL]
-						RESPONSEFILE_VERSION=\"11.2\"
-						CREATE_TYPE=\"CUSTOM\"
-						SHOW_GUI=false
-						[oracle.net.ca]
-						INSTALLED_COMPONENTS={\"server\",\"net8\",\"javavm\"}
-						INSTALL_TYPE=\"\"typical\"\"
-						LISTENER_NUMBER=1
-						LISTENER_NAMES={\"LISTENER\"}
-						LISTENER_PROTOCOLS={\"TCP;1521\"}
-						LISTENER_START=\"\"LISTENER\"\"
-						NAMING_METHODS={\"TNSNAMES\",\"ONAMES\",\"HOSTNAME\"}
-						NSN_NUMBER=1
-						NSN_NAMES={\"EXTPROC_CONNECTION_DATA\"}
-						NSN_SERVICE={\"PLSExtProc\"}
-						NSN_PROTOCOLS={\"TCP;HOSTNAME;1521\"}" > ${ORACLE_INSTALLFILES_LOCATION}/netca.rsp
+	su ${ORACLE_USER} -c "${ORACLE_HOME}/bin/netca -silent -responseFile ${ORACLE_INSTALLFILES_LOCATION}/netca.rsp"
+	echo "Listener configured, now adding to CRS..."
+	su ${ORACLE_USER} -c "${ORACLE_HOME}/bin/srvctl add listener -endpoints TCP:1521 -oraclehome ${GRID_HOME}"
+	su ${ORACLE_USER} -c "${ORACLE_HOME}/bin/srvctl start listener"
+}
 
-
-						su ${ORACLE_USER} -c "${ORACLE_HOME}/bin/netca -silent -responseFile ${ORACLE_INSTALLFILES_LOCATION}/netca.rsp"
-						echo "Listener configured, now adding to CRS..."
-						su ${ORACLE_USER} -c "${ORACLE_HOME}/bin/srvctl add listener -endpoints TCP:1521 -oraclehome ${GRID_HOME}"
-						su ${ORACLE_USER} -c "${ORACLE_HOME}/bin/srvctl start listener"
-
-                     }
-
-
-
+# Executing Functions in order 
 Checkpackage
 check_parse_arguments
 Check_if_user_is_root
