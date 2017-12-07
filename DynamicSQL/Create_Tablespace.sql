@@ -10,11 +10,12 @@ set trimspool    on
 set termout      off
 set serveroutput off
 
-spool 'E:\MISC\SQLPLUS\QA-DB_Tblspc.sql'
+spool 'E:\MISC\SQLPLUS\Tblspc.sql'
+
 select 'select dbms_metadata.get_ddl(''TABLESPACE'','''   ||  tablespace_name || ''') from dual;'   
 from dba_tablespaces;
 
-spool off
+spool off;
 
 BEGIN
      dbms_metadata.set_transform_param (dbms_metadata.session_transform, 'SQLTERMINATOR', true );
@@ -29,6 +30,6 @@ END;
 
 spool 'E:\MISC\SQLPLUS\Final_Tblspc_Create.sql'
 
-@@QA_Tblspc.sql
+@@Tblspc.sql
 
 spool off
