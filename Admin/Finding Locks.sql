@@ -22,3 +22,11 @@ select * from v$lock where type='TX' and request > 0;
 
 -- Show sessions holding a TX lock:
 select * from v$lock where type='TX' and lmode > 0;
+
+
+-- DBA_BLOCKERS - Shows non-waiting sessions holding locks being waited-on
+-- DBA_DDL_LOCKS - Shows all DDL locks held or being requested
+-- DBA_DML_LOCKS - Shows all DML locks held or being requested
+-- DBA_LOCK_INTERNAL - Displays 1 row for every lock or latch held or being requested with the username of who is holding the lock
+-- DBA_LOCKS - Shows all locks or latches held or being requested
+-- DBA_WAITERS - Shows all sessions waiting on, but not holding waited for locks
