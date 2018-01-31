@@ -13,3 +13,12 @@ from
  (select object_id, owner, object_name,object_type from dba_objects) b
 where a.object_id=b.object_id;
 
+-- Show all sessions waiting for any lock:
+select event,p1,p2,p3 from v$session_wait 
+where wait_time=0 and event='enqueue';
+
+-- Show sessions waiting for a TX lock:
+select * from v$lock where type='TX' and request > 0;
+
+-- Show sessions holding a TX lock:
+select * from v$lock where type='TX' and lmode > 0;
