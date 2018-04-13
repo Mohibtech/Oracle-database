@@ -10,7 +10,7 @@ CONTENT=METADATA_ONLY
 COMPRESSION=ALL
 ~~~
 
-###Exporting Schema 
+### Exporting Schema 
 ~~~sql
 DIRECTORY=BACKUPS
 DUMPFILE=SCHEMA_MX02.DMP
@@ -20,7 +20,7 @@ PARALLEL=4
 COMPRESSION=ALL
 ~~~
 
-###FULL Schema Metadata ONLY
+### FULL Schema Metadata ONLY
 ~~~sql
 DIRECTORY=BACKUPS
 DUMPFILE=SCHEMA_MX02_METADATA.DMP
@@ -31,7 +31,7 @@ PARALLEL=4
 COMPRESSION=ALL
 ~~~
 
-###Exporting Single Table (Partitioned)
+### Exporting Single Table (Partitioned)
 ~~~sql
 userid=mohib/passwd
 Directory=MX_DB_BACKUP_DIR
@@ -42,7 +42,7 @@ Parallel=8
 Compression=all
 ~~~
 
-###Exporting Multiple Tables
+### Exporting Multiple Tables
 ~~~sql
 userid=TKMX/Aa
 Directory=BACKUPS
@@ -54,7 +54,7 @@ Parallel=8
 Compression=all
 ~~~
 
-###Exporting Table Partition
+### Exporting Table Partition
 ~~~sql
 userid=STAR/passwd
 tables=STAR.STAR_DG0:PT_STAR_DG0_20150101
