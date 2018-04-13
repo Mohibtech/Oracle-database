@@ -1,6 +1,6 @@
-#Export Data Pump 
+# Export Data Pump 
 
-###Exporting Full Database Metadata
+### Exporting Full Database Metadata
 ~~~sql
 DIRECTORY=BACKUPS
 DUMPFILE=FULLDB_METADATA.DMP  
