@@ -18,3 +18,10 @@ Get-Item -Path HKLM:\SOFTWARE\Oracle  | remove-item -confirm
 Get-Item -Path HKLM:\SOFTWARE\Wow6432Node\Ora*  | remove-item -confirm                                    
 Get-Item -Path HKLM:\SYSTEM\CurrentControlSet\Services\Ora*  | remove-item -confirm
 ```
+
+# Manually remove the registry entry, OracleDBConsoleSID:
+> HKLM\System\CurrentControlSet\Services\EventLog\Application\Oracle*
+
+## OraInventory 
+Windows: C:\\Program Files\Oracle\Inventory\logs\
+
