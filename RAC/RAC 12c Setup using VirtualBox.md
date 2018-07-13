@@ -23,5 +23,8 @@ Apart from the localhost address, the "/etc/hosts" file can be left blank, but I
 #192.168.56.106   ol7-122-scan.localdomain ol7-122-scan  
 #192.168.56.107   ol7-122-scan.localdomain ol7-122-scan  
 
+SCAN address is commented out of the hosts file because it must be resolved using a DNS, so it can round-robin between 3 addresses on the same subnet as the public IPs. 
+DNS can be configured on the host machine using BIND or Dnsmasq, which is much simpler. 
+If you are using Dnsmasq, put RAC-specific entries in hosts machines "/etc/hosts" file, with SCAN entries uncommented, restart Dnsmasq.
 
  
