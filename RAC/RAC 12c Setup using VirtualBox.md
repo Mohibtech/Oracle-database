@@ -40,7 +40,7 @@ nameserver 192.168.56.1
 
 The changes to the `"resolv.conf"` will be overwritten by the network manager, due to the presence of the NAT interface. For this reason, this interface should now be disabled on startup. You can enable it manually if you need to access the internet from VMs. 
 
-## Edit enp0s3
+### Edit enp0s3
 Edit `"/etc/sysconfig/network-scripts/ifcfg-enp0s3"` (eth0) file, making the following change. This will take effect after the next restart.
 ```
 ONBOOT=no
@@ -107,3 +107,18 @@ Address: 192.168.56.106
 Name:	ol7-122-scan.localdomain
 Address: 192.168.56.107
 ```
+
+## Change SELinux to permissive
+Change setting of SELinux to permissive by editing the "/etc/selinux/config" file, making sure SELINUX flag is set as follows.
+```
+SELINUX=permissive
+```
+
+## Disable Linux Firewall 
+If you have Linux firewall enabled, you will need to disable or configure it. 
+The following is an example of disabling the firewall.
+```
+# systemctl stop firewalld
+# systemctl disable firewalld
+```
+
