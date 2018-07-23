@@ -47,10 +47,10 @@ ONBOOT=no
 ```
 
 There is no need to do the restart now. You can just run the following command. Remember to amend the adapter name if yours are named differently.
-```
-# ifdown enp0s3
-# #ifdown eth0
-```
+
+> ifdown enp0s3
+> #ifdown eth0
+
 
 At this point, the networking for the first node should look something like the following. Notice that enp0s3 (eth0) has no associated IP address because it is disabled.
 ```
