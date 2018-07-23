@@ -3,7 +3,7 @@ Perform either the Automatic Setup or the Manual Setup to complete the basic pre
 Automatic Setup
 If you plan to use the "oracle-database-server-12cR2-preinstall" package to perform all your prerequisite setup, issue the following command.
 ```
-**yum install oracle-database-server-12cR2-preinstall -y**
+<b>yum install oracle-database-server-12cR2-preinstall -y<\b>
 ```
 
 Earlier versions of Oracle Linux required manual setup of the Yum repository by following the instructions at http://public-yum.oracle.com.
