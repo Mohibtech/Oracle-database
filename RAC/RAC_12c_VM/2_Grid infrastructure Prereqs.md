@@ -42,14 +42,14 @@ The changes to the `"resolv.conf"` will be overwritten by the network manager, d
 
 ### Edit enp0s3
 Edit `"/etc/sysconfig/network-scripts/ifcfg-enp0s3"` (eth0) file, making the following change. This will take effect after the next restart.
-```
-ONBOOT=no
-```
+
+> ONBOOT=no
+
 
 There is no need to do the restart now. You can just run the following command. Remember to amend the adapter name if yours are named differently.
 
-> ifdown enp0s3
-> #ifdown eth0
+> ifdown enp0s3  
+#ifdown eth0
 
 
 At this point, the networking for the first node should look something like the following. Notice that enp0s3 (eth0) has no associated IP address because it is disabled.
